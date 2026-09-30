@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<!--
+  =====================================================================
+  S617 PORTFOLIO 3 TEMPLATE
+  How to use: edit every spot marked  <!-- EDIT: ... -- >  below.
+  You do NOT need to touch the <style> block unless you want to change
+  the look. Feel free to use your favorit ai to edit or modify. 
+  When you're done, commit this file to your `username.github.io`
+  repo and enable GitHub Pages (Settings -> Pages -> Source: main).
+  =====================================================================
+-->
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- EDIT: your name in the browser tab title -->
+  <title>Your Name - Imperial Cyber Security Datapad</title>
+
+  <!-- Google Fonts: Orbitron for sci-fi display headers & Share Tech Mono for terminal text -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-space: #07090e;
+      --surface-dark: #0e131d;
+      --surface-panel: #151c28;
+      --border-hud: #2b384e;
+      
+      --sith-red: #ff2a2a;
+      --sith-glow: rgba(255, 42, 42, 0.4);
+      --imperial-amber: #ff9900;
+      --deathstar-cyan: #00f0ff;
+      --empire-gold: #ffd700;
+      
+      --text-bright: #f0f4f8;
+      --text-muted: #8b9bb4;
+      --text-dim: #54647c;
+
+      --font-display: "Orbitron", sans-serif;
+      --font-mono: "Share Tech Mono", monospace;
+      --font-body: "Rajdhani", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    body {
+      margin: 0;
+      background-color: var(--bg-space);
+      color: var(--text-bright);
+      font-family: var(--font-body);
+      font-size: 1.15rem;
+      line-height: 1.6;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      position: relative;
+      background-image: 
+        radial-gradient(circle at 50% 10%, rgba(255, 42, 42, 0.08) 0%, transparent 60%),
+        linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.35) 50%);
+      background-size: 100% 100%, 100% 4px; /* Datapad Scanline Effect */
+    }
+
+    /* Grid layout background overlay */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(0, 240, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.02) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .wrap {
+      position: relative;
+      z-index: 1;
+      max-width: 50rem;
+      margin: 0 auto;
+      padding: clamp(2rem, 5vw, 4rem) 1.5rem;
+    }
+
+    /* Interactive Hyperlinks */
+    a { 
+      color: var(--deathstar-cyan); 
+      text-decoration: none; 
+      transition: all 0.2s ease;
+      font-family: var(--font-mono);
+    }
+    a:hover { 
+      color: var(--sith-red); 
+      text-shadow: 0 0 10px var(--sith-glow);
+    }
+    a:focus-visible { 
+      outline: 2px solid var(--sith-red); 
+      outline-offset: 3px; 
+    }
+
+    .datapad-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.6rem 1.2rem;
+      background: var(--surface-dark);
+      border: 1px solid var(--border-hud);
+      border-bottom: 2px solid var(--sith-red);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    }
+
+    .hud-indicators {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    .hud-light {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .hud-light.red { 
+      background: var(--sith-red); 
+      box-shadow: 0 0 8px var(--sith-red); 
+      animation: pulse-red 2s infinite alternate; 
+    }
+    .hud-light.amber { background: var(--imperial-amber); box-shadow: 0 0 6px var(--imperial-amber); }
+    .hud-light.cyan { background: var(--deathstar-cyan); box-shadow: 0 0 6px var(--deathstar-cyan); }
+
+    @keyframes pulse-red {
+      0% { opacity: 0.4; }
+      100% { opacity: 1; box-shadow: 0 0 12px var(--sith-red); }
+    }
+
+    .hero {
+      background: var(--surface-panel);
+      border: 1px solid var(--border-hud);
+      border-top: none;
+      padding: 2.2rem;
+      position: relative;
+      /* Cut-corners sci-fi frame */
+      clip-path: polygon(
+        0 0, 
+        100% 0, 
+        100% calc(100% - 20px), 
+        calc(100% - 20px) 100%, 
+        0 100%
+      );
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero::before {
+      content: "IMPERIAL DATAPAD // SEC-LOG 9942";
+      position: absolute;
+      top: 0.8rem;
+      right: 1.2rem;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      letter-spacing: 0.15em;
+    }
+
+    .hero .prompt {
+      font-family: var(--font-mono);
+      color: var(--sith-red);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.05em;
+    }
+
+    .hero h1 {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: 0.05em;
+      margin: 0 0 0.5rem;
+      color: var(--text-bright);
+      text-transform: uppercase;
+      text-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+    }
+
+    .hero .role {
+      font-family: var(--font-mono);
+      font-weight: 500;
+      color: var(--deathstar-cyan);
+      font-size: 1rem;
+      margin: 0 0 1.25rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 42, 42, 0.15);
+      border: 1px solid var(--sith-red);
+      color: var(--sith-red);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      padding: 3px 10px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero .lede { 
+      color: var(--text-muted); 
+      max-width: 38rem; 
+      margin: 0 0 1.8rem; 
+      font-size: 1.1rem;
+    }
+
+    .contacts { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 0.8rem; 
+      font-family: var(--font-mono);
+      font-size: 0.9rem;
+    }
+
+    .contacts a {
+      background: rgba(0, 240, 255, 0.05);
+      border: 1px solid var(--border-hud);
+      padding: 0.45rem 0.9rem;
+      color: var(--text-bright);
+      letter-spacing: 0.05em;
+      clip-path: polygon(6px 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%, 0 6px);
+    }
+
+    .contacts a:hover {
+      background: rgba(255, 42, 42, 0.2);
+      border-color: var(--sith-red);
+      color: #ffffff;
+    }
+
+    section { margin-top: 3.5rem; }
+
+    h2 {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--imperial-amber);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin: 0 0 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+
+    h2::before {
+      content: "//";
+      color: var(--sith-red);
+      font-family: var(--font-mono);
+    }
+
+    h2::after {
+      content: "";
+      flex-grow: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-hud), transparent);
+      margin-left: 0.5rem;
+    }
+
+    p { margin: 0 0 1rem; color: var(--text-muted); }
+
+    .tags { 
+      display: flex; 
+      flex-wrap: wrap; 
+      gap: 0.6rem; 
+      padding: 0; 
+      margin: 0; 
+      list-style: none; 
+      font-family: var(--font-mono);
+    }
+
+    .tags li {
+      font-size: 0.88rem;
+      color: var(--text-bright);
+      background: var(--surface-dark);
+      border: 1px solid var(--border-hud);
+      padding: 0.35rem 0.85rem;
+      transition: all 0.2s ease;
+      letter-spacing: 0.05em;
+      clip-path: polygon(4px 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%, 0 4px);
+    }
+
+    .tags li:hover {
+      border-color: var(--deathstar-cyan);
+      box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
+      color: var(--deathstar-cyan);
+      transform: translateY(-2px);
+    }
+
+    .entry { 
+      background: var(--surface-dark);
+      border: 1px solid var(--border-hud);
+      border-left: 3px solid var(--sith-red);
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.3rem;
+      transition: all 0.25s ease;
+      position: relative;
+      clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    }
+
+    .entry:hover {
+      transform: translateX(6px);
+      border-left-color: var(--deathstar-cyan);
+      background: var(--surface-panel);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.5), -3px 0 12px rgba(0, 240, 255, 0.2);
+    }
+
+    .entry-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .entry h3 { 
+      font-family: var(--font-display); 
+      font-weight: 700; 
+      font-size: 1.15rem; 
+      margin: 0; 
+      color: var(--text-bright);
+      letter-spacing: 0.03em;
+    }
+
+    .clearance-tag {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      padding: 2px 8px;
+      border: 1px solid var(--border-hud);
+      color: var(--imperial-amber);
+      background: rgba(255, 153, 0, 0.08);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .entry p { 
+      font-size: 1.05rem;
+      margin: 0 0 0.9rem; 
+    }
+
+    .entry .meta { 
+      font-family: var(--font-mono);
+      font-size: 0.85rem; 
+      color: var(--text-muted); 
+      background: rgba(0, 0, 0, 0.3);
+      padding: 0.5rem 0.8rem;
+      border: 1px solid var(--border-hud);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .entry .meta span { 
+      color: var(--imperial-amber); 
+    }
+
+    footer {
+      margin-top: 4.5rem;
+      padding-top: 1.8rem;
+      border-top: 1px solid var(--border-hud);
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      text-align: center;
+      letter-spacing: 0.05em;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- Top Datapad HUD Bar -->
+    <div class="datapad-topbar">
+      <div class="hud-indicators">
+        <span class="hud-light red"></span>
+        <span class="hud-light amber"></span>
+        <span class="hud-light cyan"></span>
+        <span>GALACTIC DEFENSE NETWORK</span>
+      </div>
+      <span>SEC-LEVEL: HIGH</span>
+    </div>
+
+    <!-- Imperial Terminal Header -->
+    <header class="hero">
+      <div class="prompt">> AUTHENTICATING IMPERIAL CREDENTIALS... ACCESS GRANTED</div>
+      
+      <!-- EDIT: your name -->
+      <h1>Your Name</h1>
+
+      <!-- EDIT: your focus / what you're training toward -->
+      <div class="role">
+        <span>Cybersecurity Student // Aspiring SOC Analyst</span>
+        <span class="status-badge">DEFENSE GRID ACTIVE</span>
+      </div>
+
+      <!-- EDIT: your intro sentence -->
+      <p class="lede">
+        Cybersecurity student at Hudson County Community College building hands-on
+        skills in network defense and threat detection. I document everything I build.
+      </p>
+
+      <nav class="contacts" aria-label="Contact links">
+        <!-- EDIT: your links -->
+        <a href="https://github.com/your-username" target="_blank">[GITHUB]</a>
+        <a href="https://www.linkedin.com/in/your-handle" target="_blank">[LINKEDIN]</a>
+        <a href="mailto:your-dedicated-email@example.com">[TRANSMIT EMAIL]</a>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+      <!-- About Section -->
+      <section id="about">
+        <h2>DEFENSIVE_OPERATIONS</h2>
+        <!-- EDIT: short paragraph -->
+        <p>
+          I'm in my second year of the cybersecurity program at HCCC, where I work
+          through labs in the S617 lab and turn each one into a documented writeup.
+          I'm most interested in defensive security - reading logs, spotting anomalies,
+          and understanding how attacks actually unfold so I can stop them.
+        </p>
+      </section>
+
+      <!-- Skills Section -->
+      <section id="skills">
+        <h2>TACTICAL_TACTICS_&amp;_TOOLS</h2>
+        <!-- EDIT: add or remove skills -->
+        <ul class="tags">
+          <li>Linux</li>
+          <li>Python</li>
+          <li>Bash</li>
+          <li>Wireshark</li>
+          <li>nmap</li>
+          <li>Git &amp; GitHub</li>
+          <li>Networking</li>
+        </ul>
+      </section>
+
+      <!-- Work Section -->
+      <section id="work">
+        <h2>SECTOR_LOGS_&amp;_RECON</h2>
+
+        <!-- EDIT: project entries -->
+        <article class="entry">
+          <div class="entry-header">
+            <h3>Network Reconnaissance Lab</h3>
+            <span class="clearance-tag">RESTRICTED // LOG-01</span>
+          </div>
+          <p>
+            Mapped an isolated lab network with nmap, identified open services, and wrote
+            up the findings and how I'd remediate them.
+          </p>
+          <div class="meta">
+            <div><span>TOOLS:</span> nmap, Wireshark</div>
+            <a href="https://github.com/your-username/your-writeup-repo" target="_blank">VIEW LOG WRITEUP &rarr;</a>
+          </div>
+        </article>
+
+        <article class="entry">
+          <div class="entry-header">
+            <h3>Web Vulnerability Report</h3>
+            <span class="clearance-tag">RESTRICTED // LOG-02</span>
+          </div>
+          <p>
+            Assessed an intentionally vulnerable web app, documented each finding with a
+            severity rating, evidence, and a mitigation.
+          </p>
+          <div class="meta">
+            <div><span>TOOLS:</span> Burp Suite</div>
+            <a href="https://github.com/your-username/your-writeup-repo" target="_blank">VIEW LOG WRITEUP &rarr;</a>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <!-- Footer Section -->
+    <footer>
+      <!-- Keep this line -->
+      Built as part of the Cybersecurity Lab (S617) at Hudson County Community College.
+    </footer>
+
+  </div>
+</body>
+</html>
